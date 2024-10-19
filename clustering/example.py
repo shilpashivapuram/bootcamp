@@ -153,3 +153,35 @@ plt.show()
 
 
 
+from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.cluster import AgglomerativeClustering
+
+# Applying hierarchical clustering (Ward method for linkage)
+Z = linkage(X_train, method='ward')
+
+# Plotting the dendrogram
+plt.figure(figsize=(12, 8))
+dendrogram(Z, truncate_mode='level', p=5)
+plt.title('Dendrogram for Hierarchical Clustering')
+plt.xlabel('Data Points')
+plt.ylabel('Distance')
+plt.show()
+
+
+# Agglomerative Clustering (Ward linkage method)
+agg_cluster = AgglomerativeClustering(n_clusters=5, affinity='euclidean', linkage='ward')
+y_agg_train = agg_cluster.fit_predict(X_train)
+y_agg_test = agg_cluster.fit_predict(X_test)
+
+# Visualizing clusters using PCA (for 2D plotting)
+X_train_2d = pca.fit_transform(X_train)
+
+plt.figure(figsize=(6, 6))
+plt.scatter(X_train_2d[:, 0], X_train_2d[:, 1], c=y_agg_train, cmap='rainbow')
+plt.title('Agglomerative Clustering (Hierarchical)')
+plt.xlabel('PCA Component 1')
+plt.ylabel('PCA Component 2')
+plt.show()
+
+
+
